@@ -1,17 +1,26 @@
 import multer from "multer";
 import nc from "next-connect";
 import path from "path";
+import fs from "fs";
 
-const storage = multer.diskStorage({
-  destination: "./public/uploads",
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const extension = path.extname(file.originalname);
-    cb(null, file.fieldname + "-" + uniqueSuffix + extension);
-  },
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, callback) => {
+      const tmpFolder = "./public/uploads"; // Change this to your preferred temporary folder path
+      fs.mkdir(tmpFolder, { recursive: true }, (err) => {
+        if (err) throw err;
+        callback(null, tmpFolder);
+      });
+    },
+    filename: (req, file, callback) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      const extension = path.extname(file.originalname);
+      callback(null, file.fieldname + "-" + uniqueSuffix + extension);
+    },
+  }),
 });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 const handler = nc({
   onError: (err, req, res, next) => {
