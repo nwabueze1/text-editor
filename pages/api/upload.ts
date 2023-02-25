@@ -3,22 +3,8 @@ import nc from "next-connect";
 import path from "path";
 import fs from "fs";
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, callback) => {
-      const tmpFolder = "./public/uploads"; // Change this to your preferred temporary folder path
-      fs.mkdir(tmpFolder, { recursive: true }, (err) => {
-        if (err) throw err;
-        callback(null, tmpFolder);
-      });
-    },
-    filename: (req, file, callback) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      const extension = path.extname(file.originalname);
-      callback(null, file.fieldname + "-" + uniqueSuffix + extension);
-    },
-  }),
-});
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // const upload = multer({ storage });
 
@@ -33,9 +19,16 @@ const handler = nc({
 })
   .use(upload.single("file"))
   .post(async (req, res) => {
-    (res as any)
-      .status(200)
-      .send(JSON.stringify("/uploads/" + (req as any).file.filename));
+    const fileBuffer = (req as any).file.buffer;
+    const fileName = (req as any).file.originalname;
+    const filePath = `/uploads/${fileName}`;
+
+    fs.writeFile(`./public${filePath}`, fileBuffer, (err) => {
+      if (err) {
+        return (res as any).status(500).json({ message: err.message });
+      }
+      return (res as any).status(200).json(filePath);
+    });
   });
 
 export default handler;
