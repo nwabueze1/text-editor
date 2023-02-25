@@ -116,7 +116,7 @@ body {
   border-radius: 2px;
   border: 1px solid rgb(123, 163, 123);
   transition: box-shadow 0.5s ease;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   color: rgb(119, 118, 118);
   cursor: pointer;
 }
@@ -127,14 +127,14 @@ body {
 }
 
 .upload_title {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin: 10px 0;
   color: gray;
 }
 .upload_subtitle {
   text-transform: capitalize;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
 }
 .list {
   background-color: white;
