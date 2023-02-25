@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import Styles from "./Styles.module.scss";
+import Styles from "./Styles.module.css";
 
 interface ITitleProps {
   value: string;

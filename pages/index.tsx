@@ -3,7 +3,7 @@ import Input from "@/components/Input";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useState } from "react";
-import style from "../styles/Home.module.scss";
+import style from "../styles/Home.module.css";
 
 const RichTextEditor = dynamic(() => import("@/components/Editor"), {
   ssr: false,
