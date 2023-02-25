@@ -14,6 +14,7 @@ export default function FileUploader({
 
   const fileRef = React.useRef();
 
+  const hasFile = fileName.length > 0;
   React.useEffect(() => {}, []);
   return (
     <div>
@@ -27,7 +28,11 @@ export default function FileUploader({
         className="uploader"
         onClick={() => (fileRef.current as any).click()}
       >
-        <button className="button">Import Image from Device</button>
+        {fileName ? (
+          <h4>{fileName}</h4>
+        ) : (
+          <button className="button">Import Image from Device</button>
+        )}
       </div>
       <input
         type="file"
